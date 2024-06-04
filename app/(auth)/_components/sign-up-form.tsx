@@ -28,7 +28,7 @@ export default function SignupForm({
   searchParams: { message: string };
 }) {
   const [formState, formAction] = useFormState(signup, INITIAL_STATE);
-  console.log(formState);
+
   return (
     <div>
       <form action={formAction}>

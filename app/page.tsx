@@ -2,6 +2,7 @@ import db from '@/lib/db';
 import { createClient } from '@/utils/supabase/server';
 import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,27 +11,28 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log(user?.email);
+  // console.log(user);
 
   if (!user) return redirect('/sign-in');
 
-  await prisma.user.create({
-    data: {
+  const dbUser = await prisma.user.findUnique({
+    where: {
       id: user.id,
-      email: user.email ?? '',
-      role: 'customer',
-      mailingAddress: '',
     },
   });
 
-  // const { error } = await supabase.from('User').insert({
-  //   id: user.id,
-  //   email: user.email,
-  //   role: 'customer',
-  //   mailingAddress: '',
-  // });
-
   // console.log(dbUser);
+
+  if (!dbUser) {
+    await prisma.user.create({
+      data: {
+        id: user.id,
+        email: user.email ?? '',
+        role: 'customer',
+        mailingAddress: '',
+      },
+    });
+  }
 
   return <div>Home</div>;
 }

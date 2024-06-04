@@ -1,19 +1,32 @@
-import { type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from './utils/supabase/middleware'
+import { isValidPassword } from './lib/isValidPassword'
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+export async function middleware(req: NextRequest) {
+
+  if ((await isAuthenticated(req) === false)) {
+    return new NextResponse("Unauthorized", {
+      status: 401,
+      headers: {"WWW-Authenticate": "Basic"},
+    })
+  }
+  return await updateSession(req)
+}
+
+async function isAuthenticated(req: NextRequest) {
+  const authHeader = req.headers.get("authorization" || req.headers.get("Authorization"))
+
+  if (authHeader == null) return false
+
+  const [username, password] = Buffer.from(authHeader.split(" ")[1], "base64")
+  .toString()
+  .split(":")
+  
+  // isValidPassword(password, 'sdsf')
+  // return false
+  return username === process.env.ADMIN_USERNAME && (await isValidPassword(password, process.env.HASHED_ADMIN_PASSWORD as string))
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  matcher: '/admin/:path*'
 }

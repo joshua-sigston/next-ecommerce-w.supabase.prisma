@@ -42,7 +42,7 @@ export async function signup(prevState: any, formData: any) {
   }
 
   const supabase = createClient()
-  console.log(validatedFields.data)
+  // console.log(validatedFields.data)
 
   const { error } = await supabase.auth.signUp(validatedFields.data)
   console.log(error)
@@ -63,7 +63,7 @@ export async function emailLogin(formData: FormData) {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
-  console.log(data)
+  // console.log(data)
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {

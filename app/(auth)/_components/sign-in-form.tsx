@@ -9,29 +9,17 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { emailLogin } from '../actions';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 
-export default async function Login({
+export default async function SignInForm({
   searchParams,
 }: {
   searchParams: { message: string };
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  console.log(user);
-  if (user) {
-    return redirect('/todos');
-  }
-
   return (
     <section className="h-[calc(100vh-57px)] flex justify-center items-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl flex justify-center">Login</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
@@ -60,11 +48,11 @@ export default async function Login({
                 required
               />
             </div>
-            {/* {searchParams.message && (
+            {searchParams.message && (
               <div className="text-sm font-medium text-destructive">
                 {searchParams.message}
               </div>
-            )} */}
+            )}
             <Button formAction={emailLogin} className="w-full">
               Login
             </Button>
