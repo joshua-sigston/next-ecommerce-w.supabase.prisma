@@ -6,14 +6,11 @@ import {
   CardContent,
 } from '@/components/ui/card';
 import React from 'react';
-import { Button } from 'react-day-picker';
-import { emailLogin } from '../actions';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function SkeletonCard() {
   return (
     <div>
-      {' '}
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl flex justify-center">

@@ -1,3 +1,7 @@
+import Nav from './_components/Nav';
+
+export const dynamic = 'force-dynamic';
+
 export default function AdminLayout({
   children,
 }: Readonly<{
@@ -5,7 +9,10 @@ export default function AdminLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }
