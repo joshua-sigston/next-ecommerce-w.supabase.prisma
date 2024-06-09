@@ -8,6 +8,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatCurrency, formatNumber } from '@/lib/currencyFormats';
 import db from '@/lib/db';
+import { DashbaordSkeleton } from './_components/DashboardSkeleton';
 
 async function getSalesData() {
   const data = await db.order.aggregate({
@@ -50,7 +51,11 @@ function wait(duration: number) {
 //   return { activeCount, inactiveCount }
 // }
 
-export default async function AdminDashboard() {
+export default async function AdminDashboard({
+  searchParams,
+}: {
+  searchParams: { message: string };
+}) {
   const [salesData, userData] = await Promise.all([
     getSalesData(),
     getUserData(),
@@ -75,6 +80,13 @@ export default async function AdminDashboard() {
         subtitle={`${formatNumber(productData.inactiveCount)} Inactive`}
         body={formatNumber(productData.activeCount)}
       /> */}
+      <div className="bg-blue-300">
+        {searchParams.message && (
+          <div className="text-sm font-medium text-destructive">
+            {searchParams.message}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -93,24 +105,6 @@ function DashboardCard({ title, subtitle, body }: Props) {
         <CardDescription>{subtitle}</CardDescription>
       </CardHeader>
       <CardContent>{body}</CardContent>
-    </Card>
-  );
-}
-
-export function DashbaordSkeleton() {
-  return (
-    <Card className="mx-auto min-w-[250px]">
-      <CardHeader>
-        <CardTitle>
-          <Skeleton className="w-[100px] h-[25px] rounded-md" />
-        </CardTitle>
-        <CardDescription>
-          <Skeleton className="w-[200px] h-[15px] rounded-md" />
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="w-[200px] h-[15px] rounded-md" />
-      </CardContent>
     </Card>
   );
 }

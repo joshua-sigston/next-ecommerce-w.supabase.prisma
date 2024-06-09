@@ -21,16 +21,29 @@ model User {
   role           String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  orders         Order[]
+  Order          Order[]
 }
 
 model Order {
-  id          String   @id @default(uuid())
-  paidInCents Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  userId      String
-  productId   String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(uuid())
+  paidInCents  Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String
+  productId    String
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ordertMailed Boolean
   // product     Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
+
+model Product {
+  id           String   @id @default(uuid())
+  name         String
+  priceInCents Int
+  category     String
+  image        String[]
+  description  String
+  isAvailable  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

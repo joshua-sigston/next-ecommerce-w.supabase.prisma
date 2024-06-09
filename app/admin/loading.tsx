@@ -1,4 +1,4 @@
-import { DashbaordSkeleton } from './page';
+import { DashbaordSkeleton } from './_components/DashboardSkeleton';
 
 export default function AdminLoading() {
   return (

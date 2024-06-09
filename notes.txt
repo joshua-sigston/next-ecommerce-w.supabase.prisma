@@ -3,6 +3,7 @@ npm i -D Prisma
 npm i @prisma/client
 npx prisma init
 npx prisma db push / npx prisma migrate dev
+npx prisma studio
 
 # supabase
 npm install @supabase/supabase-js @supabase/ssr

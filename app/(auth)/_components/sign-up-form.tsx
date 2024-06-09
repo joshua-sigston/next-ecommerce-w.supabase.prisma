@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { signup } from '../actions';
 import { useFormState } from 'react-dom';
-import { ZodErrors } from '../_components/zodErrors';
+import { ZodErrors } from '../../../components/zod-errors';
 import { Button } from '@/components/ui/button';
 
 const INITIAL_STATE = {
